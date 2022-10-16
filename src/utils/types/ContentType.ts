@@ -1,1 +1,0 @@
-export type ContentType = string | boolean | number | undefined

@@ -7,7 +7,7 @@ export class ProjectWithEventController extends ProjectController implements Pro
         super(controller)
     }
 
-    onProjectChange(observer: (changes: { type: "added" | "modified" | "removed"; data: ProjectRemoteType }[]) => void): { unsubscribe: () => void } {
+    onProjectChange(observer: (changes: { type: "added" | "modified" | "removed"; data: ({id: string} & ProjectRemoteType) }[]) => void): { unsubscribe: () => void } {
         return (this.controller as ProjectWithEventBase).onProjectChange(observer)
     }
 }

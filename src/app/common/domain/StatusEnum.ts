@@ -1,5 +1,5 @@
 export enum StatusEnum {
-    LOADING,
-    OK,
-    ERROR,
+    LOADING = "loading",
+    OK = "ok",
+    ERROR = "error",
 }

@@ -12,10 +12,10 @@ export class SkillController implements SkillBase {
     create(skill: SkillType): Promise<string | undefined> {
         return this.controller.create(skill)
     }
-    getById(id: string): Promise<SkillType | undefined> {
+    getById(id: string): Promise<({id: string} & SkillType) | undefined> {
         return this.controller.getById(id)
     }
-    getList(limit?: number, page?: number): Promise<[] | SkillType[]> {
+    getList(limit?: number, page?: number): Promise<[] | ({id: string} & SkillType)[]> {
         return this.controller.getList(limit, page)
     }
     updateOne(id: string, data: Partial<SkillType>): Promise<boolean> {

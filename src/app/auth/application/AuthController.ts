@@ -1,6 +1,6 @@
 import { AuthBase } from "../domain/AuthBase"
 
-export abstract class AuthController implements AuthBase {
+export class AuthController implements AuthBase {
     
     protected controller: AuthBase
 

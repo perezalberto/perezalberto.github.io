@@ -1,12 +1,13 @@
-import { getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup } from "firebase/auth"
+import { getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth"
 import { auth } from "../../../firebase/firebase"
+import { AuthBase } from "../domain/AuthBase"
 import { AuthEmailAndPasswordBase } from "../domain/AuthEmailAndPasswordBase"
 import { AuthEventBase } from "../domain/AuthEventBase"
 import { AuthProviderBase } from "../domain/AuthProviderBase"
 import { AuthProviderEnum } from "../domain/AuthProviderEnum"
 import { UserDataType } from "../domain/UserDataType"
 
-export class FirebaseAuthController implements AuthEmailAndPasswordBase, AuthEventBase, AuthProviderBase {
+export class FirebaseAuthController implements AuthBase, AuthEmailAndPasswordBase, AuthEventBase, AuthProviderBase {
     public async loginWithEmailAndPassword(credentials: {
         email: string
         password: string
@@ -45,7 +46,7 @@ export class FirebaseAuthController implements AuthEmailAndPasswordBase, AuthEve
         unsubscribe: () => void
     } {
         const _unsubscribe = onAuthStateChanged(auth, (usr) =>
-            observer({
+            observer(usr === null ? undefined : {
                 email: usr?.email,
                 name: usr?.displayName,
                 photoUrl: usr?.photoURL,
@@ -54,7 +55,13 @@ export class FirebaseAuthController implements AuthEmailAndPasswordBase, AuthEve
         )
         return { unsubscribe: () => _unsubscribe() }
     }
-    public logout(): Promise<boolean> {
-        throw new Error("Method not implemented.")
+
+    public async logout(): Promise<boolean> {
+        try {
+            await signOut(auth)
+            return true
+        } catch (error) {
+            return false
+        }
     }
 }

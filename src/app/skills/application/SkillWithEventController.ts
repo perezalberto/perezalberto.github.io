@@ -7,7 +7,7 @@ export class SkillWithEventController extends SkillController implements SkillWi
         super(controller)
     }
     
-    onSkillChange(observer: (changes: { type: "added" | "modified" | "removed"; data: SkillType }[]) => void): { unsubscribe: () => void } {
+    onSkillChange(observer: (changes: { type: "added" | "modified" | "removed"; data: ({id: string} & SkillType) }[]) => void): { unsubscribe: () => void } {
         return (this.controller as SkillWithEventBase).onSkillChange(observer)
     }
 }

@@ -3,7 +3,6 @@ import { storage } from "../../../firebase/firebase"
 import { StorageBase } from "../domain/StorageBase"
 
 export class FirebaseStorageController implements StorageBase {
-    
     async uploadOne(path: string, file: File): Promise<boolean> {
         try {
             const storageRef = ref(storage, `${path}/${file.name}`)

@@ -15,7 +15,7 @@ export class FirestoreSkillController implements SkillWithEventBase {
     async getById(id: string): Promise<({id: string} & SkillType) | undefined> {
         try {
             const project = (await getDocs(query(
-                collection(firestore, "projects"),
+                collection(firestore, "skills"),
                 where(documentId(), "==", id),
             ))).docs?.[0]
 
@@ -69,8 +69,8 @@ export class FirestoreSkillController implements SkillWithEventBase {
     }
 
     onSkillChange(observer: (changes: { type: "added" | "modified" | "removed", data: {id: string} & SkillType }[]) => void): { unsubscribe: () => void } {
-        const changesArray:{type: "added" | "modified" | "removed", data: {id: string} & SkillType}[] = []
-        const unsubscribe = onSnapshot(query(collection(firestore, "projects")), (snapshot) => {
+        const unsubscribe = onSnapshot(query(collection(firestore, "skills")), (snapshot) => {
+            const changesArray:{type: "added" | "modified" | "removed", data: {id: string} & SkillType}[] = []
             snapshot.docChanges().forEach((change) => {
                 changesArray.push({ type: change.type, data: {id: change.doc.id, ...(change.doc.data() as SkillType)} })
             })

@@ -14,11 +14,11 @@ export class ProjectController implements ProjectBase {
         return this.controller.create(project)
     }
 
-    getById(id: string): Promise<ProjectRemoteType | undefined> {
+    getById(id: string): Promise<({id: string} & ProjectRemoteType) | undefined> {
         return this.controller.getById(id)
     }
 
-    getList(lim?: number | undefined, page?: number | undefined): Promise<ProjectRemoteType[] | []> {
+    getList(lim?: number | undefined, page?: number | undefined): Promise<({id: string} & ProjectRemoteType)[] | []> {
         return this.controller.getList(lim, page)
     }
 

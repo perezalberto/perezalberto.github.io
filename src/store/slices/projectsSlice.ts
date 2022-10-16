@@ -2,13 +2,13 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { StatusEnum } from "../../app/common/domain/StatusEnum"
 import { ProjectRemoteType } from "../../app/projects/domain/ProjectRemoteType"
 
-export type ProjectState = {
+export type ProjectStateType = {
     list: ({id: string} & ProjectRemoteType)[],
     status: StatusEnum,
-    error?: string,
+    message?: string,
 }
 
-const initialState: ProjectState = {
+const initialState: ProjectStateType = {
     list: [],
     status: StatusEnum.OK,
 }
@@ -40,12 +40,12 @@ const projectsSlice = createSlice({
             ))
         },
 
-        setProjectsState: (state, action: PayloadAction<StatusEnum>) => {
+        setProjectsStatus: (state, action: PayloadAction<StatusEnum>) => {
             state.status = action.payload
         },
 
-        setError: (state, action: PayloadAction<string>) => {
-            state.error = action.payload
+        setProjectMessage: (state, action: PayloadAction<string>) => {
+            state.message = action.payload
         },
     },
 })
@@ -55,8 +55,8 @@ export const {
     addProject,
     updateProject,
     removeProject,
-    setProjectsState,
-    setError,
+    setProjectsStatus,
+    setProjectMessage,
 } = projectsSlice.actions
 
 export default projectsSlice.reducer

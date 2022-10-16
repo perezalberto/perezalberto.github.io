@@ -1,46 +1,47 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
+import { AuthType } from "../../app/auth/domain/AuthType"
 import { StatusEnum } from "../../app/common/domain/StatusEnum"
 
-export type AuthState = {
-    status: StatusEnum,
-    isSignedIn: boolean,
-    error?: string
-}
+export type AuthStateType = AuthType
 
-const initialState: AuthState = {
+const initialState: AuthType = {
     status: StatusEnum.OK,
-    isSignedIn: false,
+    loggedIn: localStorage.getItem("isSignedIn") === "true"
 }
 
 const authSlice = createSlice({
     name: "auth",
     initialState,
     reducers: {
-        setSignedIn: (state) => {
-            state.isSignedIn = true
+        setLoggedIn: (state) => {
+            localStorage.setItem("isSignedIn", "true")
+            state.loggedIn = true
             state.status = StatusEnum.OK
+            state.message = undefined
         },
 
-        setSignedOut: (state) => {
-            state.isSignedIn = false
+        setLoggedOut: (state) => {
+            localStorage.setItem("isSignedIn", "false")
+            state.loggedIn = false
             state.status = StatusEnum.OK
+            state.message = undefined
         },
 
-        setStatus: (state, action: PayloadAction<StatusEnum>) => {
+        setAuthStatus: (state, action: PayloadAction<StatusEnum>) => {
             state.status = action.payload
         },
 
-        setError: (state, action: PayloadAction<string>) => {
-            state.error = action.payload
+        setAuthMessage: (state, action: PayloadAction<string>) => {
+            state.message = action.payload
         },
     },
 })
 
 export const {
-    setSignedIn,
-    setSignedOut,
-    setStatus,
-    setError,
+    setLoggedIn,
+    setLoggedOut,
+    setAuthStatus,
+    setAuthMessage,
 } = authSlice.actions
 
 export default authSlice.reducer

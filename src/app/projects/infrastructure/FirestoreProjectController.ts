@@ -1,17 +1,17 @@
 import { ProjectRemoteType } from "../domain/ProjectRemoteType"
 import { ProjectType } from "../domain/ProjectType"
-import { controllers } from "../../common/infrastructure/config"
 import { StorageController } from "../../storage/application/StorageController"
 import { addDoc, collection, documentId, getDocs, query, where, limit, startAt, QueryConstraint, updateDoc, doc, deleteDoc, onSnapshot } from "firebase/firestore"
 import { firestore } from "../../../firebase/firebase"
 import { ProjectWithEventBase } from "../domain/ProjectWithEventBase"
+import { ControllerFactory } from "../../common/infrastructure/ControllerFactory"
 
 export class FirestoreProjectController implements ProjectWithEventBase {
 
-    private storage: StorageController
+    private static storage: StorageController
 
     constructor() {
-        this.storage = new StorageController(new controllers.CurrentStorageController())
+        FirestoreProjectController.storage = new StorageController(ControllerFactory.storageControllers().storageController())
     }
 
     /**
@@ -21,7 +21,7 @@ export class FirestoreProjectController implements ProjectWithEventBase {
      */
     async create(project: ProjectType): Promise<string | undefined> {
 
-        const isUploaded = await this.storage.uploadMany([
+        const isUploaded = await FirestoreProjectController.storage.uploadMany([
             {
                 path:"projects/preview",
                 filedata:project.imagePreview
@@ -37,11 +37,11 @@ export class FirestoreProjectController implements ProjectWithEventBase {
                 `projects/preview/${project.imagePreview.name}`,
                 `projects/${project.imageFullSize.name}`
             ].filter((_, index) => isUploaded[index])
-            await this.storage.deleteMany(toRemove)
+            await FirestoreProjectController.storage.deleteMany(toRemove)
             return undefined
         }
 
-        const urls = await this.storage.getManyUrl([
+        const urls = await FirestoreProjectController.storage.getManyUrl([
             `projects/preview/${project.imagePreview.name}`,
             `projects/${project.imageFullSize.name}`,
         ])
@@ -66,7 +66,7 @@ export class FirestoreProjectController implements ProjectWithEventBase {
                 `projects/preview/${project.imagePreview.name}`,
                 `projects/${project.imageFullSize.name}`
             ]
-            await this.storage.deleteMany(toRemove)
+            await FirestoreProjectController.storage.deleteMany(toRemove)
             return undefined
         }
     }
@@ -76,7 +76,7 @@ export class FirestoreProjectController implements ProjectWithEventBase {
      * @param {string} id project ID
      * @returns return a ProjectRemoteType
      */
-    async getById(id: string): Promise<{id: string} & ProjectRemoteType | undefined> {
+    async getById(id: string): Promise<({id: string} & ProjectRemoteType) | undefined> {
         try {
             const project = (await getDocs(query(
                 collection(firestore, "projects"),
@@ -143,14 +143,14 @@ export class FirestoreProjectController implements ProjectWithEventBase {
             if (newImage === undefined) return
             
             if (currentImageName !== undefined){
-                updatePromiseList.push(this.storage.deleteOne(`${path}/${currentImageName}`))
+                updatePromiseList.push(FirestoreProjectController.storage.deleteOne(`${path}/${currentImageName}`))
             }
 
-            updatePromiseList.push(this.storage.uploadOne(path, newImage))
+            updatePromiseList.push(FirestoreProjectController.storage.uploadOne(path, newImage))
             const result = await Promise.all(updatePromiseList)
             
             if(result[result.length - 1] === true) {
-                return this.storage.getUrl(`${path}/${newImage.name}`)
+                return FirestoreProjectController.storage.getUrl(`${path}/${newImage.name}`)
             }
             return undefined
         }
@@ -194,7 +194,7 @@ export class FirestoreProjectController implements ProjectWithEventBase {
                 `projects/${projectDoc.imageFullSizeName}`
             ]
             await Promise.all([
-                this.storage.deleteMany(toRemove),
+                FirestoreProjectController.storage.deleteMany(toRemove),
                 deleteDoc(doc(firestore, "projects", id)),
             ])
             return true
@@ -209,8 +209,8 @@ export class FirestoreProjectController implements ProjectWithEventBase {
      * @returns Return a unsubscribe function
      */
     onProjectChange(observer: (changes: { type: "added" | "modified" | "removed", data: {id: string} & ProjectRemoteType }[]) => void): { unsubscribe: () => void } {
-        const changesArray:{type: "added" | "modified" | "removed", data: {id: string} & ProjectRemoteType}[] = []
         const unsubscribe = onSnapshot(query(collection(firestore, "projects")), (snapshot) => {
+            const changesArray:{type: "added" | "modified" | "removed", data: {id: string} & ProjectRemoteType}[] = []
             snapshot.docChanges().forEach((change) => {
                 changesArray.push({ type: change.type, data: {id: change.doc.id, ...(change.doc.data() as ProjectRemoteType)} })
             })

@@ -2,13 +2,13 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { StatusEnum } from "../../app/common/domain/StatusEnum"
 import { SkillType } from "../../app/skills/domain/SkillType"
 
-export type SkillState = {
+export type SkillStateType = {
     list: ({id: string} & SkillType)[],
     status: StatusEnum,
-    error?: string,
+    message?: string,
 }
 
-const initialState: SkillState = {
+const initialState: SkillStateType = {
     list: [],
     status: StatusEnum.OK,
 }
@@ -40,12 +40,12 @@ const skillsSlice = createSlice({
             })
         },
 
-        setSkillsState: (state, action: PayloadAction<StatusEnum>) => {
+        setSkillsStatus: (state, action: PayloadAction<StatusEnum>) => {
             state.status = action.payload
         },
 
-        setError: (state, action: PayloadAction<string>) => {
-            state.error = action.payload
+        setSkillsMessage: (state, action: PayloadAction<string>) => {
+            state.message = action.payload
         },
     },
 })
@@ -55,8 +55,8 @@ export const {
     addSkill,
     updateSkill,
     removeSkill,
-    setSkillsState,
-    setError,
+    setSkillsStatus,
+    setSkillsMessage,
 } = skillsSlice.actions
 
 export default skillsSlice.reducer
