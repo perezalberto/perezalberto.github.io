@@ -1,0 +1,20 @@
+footer {
+    background-color: darken(map-get($text-colors, 'primary-dark'),5);
+    color: map-get($text-colors, 'primary-light');
+
+    .footer-waves {
+        background: linear-gradient(135deg, darken(map-get($layout-colors, 'primary'),5) 50%, transparent 50%), linear-gradient(-135deg, darken(map-get($layout-colors, 'primary'),5) 50%, transparent 50%);
+        background-color: darken(map-get($text-colors, 'primary-dark'),5);
+        background-size: 50px;
+        background-repeat: repeat-x;
+        height: 50px;
+    }
+
+    .footer-container {
+        padding: 2rem;
+        text-align: center;
+        a {
+            color: map-get($text-colors, "primary-light");
+        }
+    }
+}

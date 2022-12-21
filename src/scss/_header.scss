@@ -1,0 +1,101 @@
+header.document-header {
+    background-color: map-get($layout-colors, 'primary');
+    color: map-get($text-colors , 'primary-light');
+    text-align: center;
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    z-index: -2;
+
+    > * {
+        z-index: 1;
+    }
+
+    h1 {
+        padding: 5rem 0.5rem 1rem;
+        font-size: 6rem;
+        font-weight: 300;
+    }
+    
+    p {
+        font-size: 1.5rem;
+        padding: 0 1rem 6rem 1rem;
+    }
+
+    .triangles > div {
+        width: 0; 
+        height: 0;
+        position: absolute;
+        z-index: -1; 
+    }
+
+    .triangles > div > div > div {
+        border-style: solid;
+        border-width: 0 100px 173.2px 100px;
+        border-color: transparent transparent lighten(map-get($layout-colors, 'primary'), 3) transparent;
+        translate: -50px -86.6px;
+    }
+
+    @keyframes rotate {
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+    @for $i from 1 through 40 {
+        .triangles > div:nth-of-type(#{$i}) {
+            left: calc(random(100) * 1%);
+            top: calc(random(100) * 1%);
+            @if random(100) > 50 {
+                animation: rotate calc(random(45) * 1s + 35s) linear infinite;
+            } @else {
+                animation: rotate calc(random(45) * 1s + 35s) linear infinite reverse;
+            }
+        }
+
+        .triangles > div:nth-of-type(#{$i}) {
+            filter: brightness(calc(random(10) / 100 + 0.94)) blur(10px);
+            
+        }
+        .triangles > div:nth-of-type(#{$i}) > div {
+            transform: scale(calc(random(20) / 10 + 0.7));
+        }
+
+        .triangles > div:nth-of-type(#{$i}) > div > div {
+            transform: translateX(calc(random(400) * 1px));
+        }
+    }
+}
+
+@media only screen and (min-width: 0) {
+    header{
+        h1{
+            font-size: 9vw;
+        }
+        p {
+            font-size: 5vw;
+        }
+    }
+}
+
+@media only screen and (min-width: 480px) {
+    header{
+        p {
+            font-size: 1.5rem;
+        }
+    }
+}
+
+@media only screen and (min-width: 800px) {
+    header{
+        h1{
+            font-size: 4.8rem;
+        }
+        p {
+            font-size: 1.5rem;
+        }
+    }
+}

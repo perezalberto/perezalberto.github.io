@@ -1,0 +1,9 @@
+.modal-overlay {
+    background-color: rgba(0,0,0,0.75);
+    backdrop-filter: blur(25px);
+}
+
+.modal-container {
+    background-color: map-get($layout-colors, "primary");
+    border-radius: 5px;
+}

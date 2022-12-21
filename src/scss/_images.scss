@@ -1,0 +1,17 @@
+img {
+    display: inline-block;
+    position: relative;
+    min-height: 10px;
+    min-width: 10px;
+    vertical-align: middle;
+}
+
+img:before {
+    content: "";
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: lighten(map-get($layout-colors, "primary"),5);
+    position: absolute;
+}

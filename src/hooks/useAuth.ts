@@ -2,36 +2,46 @@ import { useSelector, useDispatch } from "react-redux"
 import { AuthProviderEnum } from "../app/auth/domain/AuthProviderEnum"
 import { StatusEnum } from "../app/common/domain/StatusEnum"
 import { ControllerFactory } from "../app/common/infrastructure/ControllerFactory"
-import { AuthStateType, setAuthStatus } from "../store/slices/authSlice"
+import { AuthStateType, setAuthMessage, setAuthStatus } from "../store/slices/authSlice"
 import { RootStateType } from "../store/store"
 
 export function useAuth() {
     const userState = useSelector<RootStateType, AuthStateType>(state => state.auth)
     const dispatch = useDispatch()
 
-    return {state: userState, actions:{
+    return {authState: userState, authActions:{
         async loginWithEmailAndPassword(email: string, password: string) {
-            if(userState.loggedIn) return
+            if(userState.loggedIn || userState.status === StatusEnum.LOADING) return
             dispatch(setAuthStatus(StatusEnum.LOADING))
             const controller = ControllerFactory.authControllers().authEmailAndPasswordController()
-            await controller.loginWithEmailAndPassword({email, password})
+            try {
+                await controller.loginWithEmailAndPassword({email, password})
+            } catch (error) {
+                dispatch(setAuthStatus(StatusEnum.ERROR))
+                dispatch(setAuthMessage("Wrong credentials"))
+            }
         },
 
         async loginWithGoogle() {
-            if(userState.loggedIn) return
+            if(userState.loggedIn || userState.status === StatusEnum.LOADING) return
             dispatch(setAuthStatus(StatusEnum.LOADING))
             const controller = ControllerFactory.authControllers().AuthProviderController()
-            await controller.loginWithAuthProvider(AuthProviderEnum.GOOGLE)
+            try {
+                await controller.loginWithAuthProvider(AuthProviderEnum.GOOGLE)
+            } catch (error) {
+                dispatch(setAuthStatus(StatusEnum.ERROR))
+                dispatch(setAuthMessage("Wrong credentials"))
+            }
         },
 
         async logout() {
-            if(!userState.loggedIn) return
+            if(!userState.loggedIn || userState.status === StatusEnum.LOADING) return
             dispatch(setAuthStatus(StatusEnum.LOADING))
             const controller = ControllerFactory.authControllers().authController()
-            if(await controller.logout()){
-                dispatch(setAuthStatus(StatusEnum.OK))
-            }else{
+            const isLoggedOut = await controller.logout()
+            if(!isLoggedOut){
                 dispatch(setAuthStatus(StatusEnum.ERROR))
+                dispatch(setAuthMessage("Failed to logout"))
             }
         },
     }}

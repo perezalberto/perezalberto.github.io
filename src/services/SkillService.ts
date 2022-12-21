@@ -15,7 +15,7 @@ export class SkillService extends ServiceBase {
         this.controller = ControllerFactory.skillControllers().skillWithEventController()
     }
 
-    async start(): Promise<void> {
+    start(): void {
         this.store.dispatch(setSkillsStatus(StatusEnum.LOADING))
         this.unsubscribe = this.controller.onSkillChange(observer => {
             observer.forEach(changes => {

@@ -5,7 +5,7 @@ export type ProjectRemoteType = {
     imageFullSizeName: string,
     text: string,
     projectType: string,
-    langs: [string],
+    langs: string,
     website?: string,
-    repository: string,
+    repository?: string,
 }

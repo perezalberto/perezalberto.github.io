@@ -1,0 +1,247 @@
+.menu-icon {
+    transition: all 400ms;
+    width: 100%;
+    display: block;
+    color: map-get($text-colors, "primary-dark");
+
+    &.active {
+        transform: rotate(45deg);
+        color: map-get($text-colors, "primary-light");
+    }
+
+    .line {
+        fill: none;
+        transition: stroke-dasharray 400ms, stroke-dashoffset 400ms;
+        stroke: currentColor;
+        stroke-width: 5.5;
+        stroke-linecap: round;
+    }
+
+    .top {
+        stroke-dasharray: 40 121;
+    }
+
+    .bottom {
+        stroke-dasharray: 40 121;
+    }
+
+    &.active .top {
+        stroke-dashoffset: -68px;
+    }
+
+    &.active .bottom {
+        stroke-dashoffset: -68px;
+    }
+}
+
+.navbar {
+    .display-fix{
+        display: none;
+    }
+    .navbar-menu-button {
+        top: 1rem;
+        right: 1rem;
+        position: fixed;
+        line-height: 0;
+        z-index: 1000;
+
+        a {
+            color: lighten(map-get($layout-colors , "accent"), 40);
+            border-radius: 5rem;
+            background-color: map-get($layout-colors , "accent");
+            display: inline-block;
+            padding: 0.25rem;
+            width: 4rem;
+            transition: all 0.2s ease-out;
+        }
+
+        &.active a {
+            background-color: rgba(map-get($text-colors , "primary-light"), $alpha: 0.1);
+            color: map-get($text-colors , "primary-light");
+        }
+
+        &.active~.navbar-container {
+            clip-path: circle(75%);
+        }
+    }
+
+    .navbar-container {
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        background: lighten(map-get($layout-colors , "primary"), 2) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.027'%3E%3Cpath d='M0 38.59l2.83-2.83 1.41 1.41L1.41 40H0v-1.41zM0 1.4l2.83 2.83 1.41-1.41L1.41 0H0v1.41zM38.59 40l-2.83-2.83 1.41-1.41L40 38.59V40h-1.41zM40 1.41l-2.83 2.83-1.41-1.41L38.59 0H40v1.41zM20 18.6l2.83-2.83 1.41 1.41L21.41 20l2.83 2.83-1.41 1.41L20 21.41l-2.83 2.83-1.41-1.41L18.59 20l-2.83-2.83 1.41-1.41L20 18.59z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        clip-path: circle(1.8rem at calc(100% - 3rem) 3rem);
+        transition: all 0.2s ease-in-out;
+        display: flex;
+        position: fixed;
+        z-index: 100;
+    }
+
+    .navbar-brand {
+        top: 1.5rem;
+        left: 1.5rem;
+        position: absolute;
+
+        svg {
+            width: 3rem;
+            min-width: 3rem;
+
+            #a {
+                fill: map-get($text-colors , "primary-light");
+            }
+
+            #p {
+                fill: map-get($layout-colors , "accent");
+            }
+        }
+    }
+
+    .navbar-links {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        text-align: center;
+        flex-grow: 1;
+        display: flex;
+        justify-content: space-evenly;
+        flex-direction: column;
+
+        >ul {
+            display: flex;
+            list-style: none;
+            margin: 0;
+        }
+
+        a {
+            color: map-get($text-colors , "primary-light");
+            font-size: 2rem;
+            text-decoration: none;
+            transition: all 0.1s ease-out;
+            line-height: 0;
+
+            &:hover {
+                color: white;
+            }
+        }
+
+        >.nav-list {
+            flex-direction: column;
+            padding: 0;
+            align-items: center;
+
+            a {
+                position: relative;
+                padding: 2.5rem;
+                display: block;
+
+                &::before,
+                &::after {
+                    color: transparent;
+                    margin: 0.5rem;
+                    transition: all 0.1s ease-in;
+                }
+
+                &::before {
+                    content: "<";
+                }
+
+                &::after {
+                    content: "/>";
+                }
+
+                &:hover::before {
+                    color: map-get($layout-colors, 'accent');
+                }
+
+                &:hover::after {
+                    color: map-get($layout-colors, 'accent');
+                }
+            }
+        }
+
+        >.social-list {
+            padding: 0;
+            justify-content: center;
+            line-height: 0;
+
+            a {
+                padding: 0.5rem 1rem;
+                display: block;
+                line-height: 0;
+
+                svg {
+                    top: 0 !important;
+                }
+            }
+        }
+    }
+}
+
+@media only screen and (min-width: 900px) {
+    .display-fix {
+        display: block;
+        height: 3.5rem;
+    }
+    .navbar {
+        .navbar-menu-button {
+            display: none;
+        }
+
+        .navbar-brand {
+            top: auto;
+            left: auto;
+            position: relative;
+            padding: 1rem;
+
+            a {
+                display: block;
+            }
+
+            svg {
+                width: 2rem;
+                min-width: 2rem;
+                display: block;
+            }
+        }
+
+        .navbar-links {
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+
+            >.nav-list {
+                flex-direction: row;
+
+                a {
+                    padding: 1rem 0rem;
+                    font-size: 1.1rem;
+
+                    &::before,
+                    &::after {
+                        margin: 0.2rem;
+                    }
+                }
+            }
+
+            >.social-list {
+                a {
+                    font-size: 1.5rem;
+                }
+            }
+        }
+
+        .navbar-container {
+            clip-path: none;
+            right: 0;
+            height: auto;
+            width: auto;
+            background-color: map-get($layout-colors, 'primary');
+            border-bottom: 1px solid lighten(map-get($layout-colors, 'primary'), 5);
+            box-shadow: 0 0 10px 0 rgba(#000000, 0.1);
+            background-image: none;
+            align-items: center;
+        }
+    }
+}

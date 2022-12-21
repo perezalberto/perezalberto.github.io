@@ -1,0 +1,79 @@
+.text-dark {
+    color: map-get($text-colors, "primary-dark") !important
+}
+
+.text-light {
+    color: map-get($text-colors, "primary-light") !important
+}
+
+@for $var from 1 through 5 {
+    .p-#{$var} {
+        padding: calc($var * 1px);
+    }
+    .mt-#{$var} {
+        padding-top: calc($var * 1px);
+    }
+    .mb-#{$var} {
+        padding-bottom: calc($var * 1px);
+    }
+    .ml-#{$var} {
+        padding-left: calc($var * 1px);
+    }
+    .mr-#{$var} {
+        padding-right: calc($var * 1px);
+    }
+
+    .m-#{$var} {
+        margin: calc($var * 1px);
+    }
+    .mt-#{$var} {
+        margin-top: calc($var * 1px);
+    }
+    .mb-#{$var} {
+        margin-bottom: calc($var * 1px);
+    }
+    .ml-#{$var} {
+        margin-left: calc($var * 1px);
+    }
+    .mr-#{$var} {
+        margin-right: calc($var * 1px);
+    }
+}
+
+//
+
+.color-accent {
+    color: map-get($colors, 'accent');
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem;
+}
+
+.inline-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    justify-content: flex-start;
+    align-items: center;
+    display: flex;
+}
+
+.flex {
+    display: flex;
+}
+
+.flex-col {
+    flex-direction: column;
+}
+
+.txt-center {
+    text-align: center;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 500;
+    color: map-get($text-colors, "primary-light");
+    line-height: 1;
+}

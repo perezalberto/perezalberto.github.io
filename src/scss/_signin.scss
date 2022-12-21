@@ -1,0 +1,76 @@
+.login-page {
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: absolute;
+}
+
+.login-container {
+    max-width: 400px;
+    min-width: 300px;
+    padding: 1rem;
+    background-color: lighten(map-get($layout-colors, 'primary'), 10);
+    border-radius: 4px;
+
+    .login-title {
+        color: white;
+        font-size: 3rem;
+        font-weight: 400;
+        line-height: 1;
+        display: block;
+        margin: 0.5rem 0 1.5rem;
+    }
+
+    .login-error {
+        background-color: #ff38389f;
+        margin: 0;
+        display: block;
+        padding: 1rem;
+        border-radius: 4px;
+        color: white;
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+
+        input[type=email],
+        input[type=password] {
+            background-color: rgba(map-get($text-colors, 'primary-light'), 0.1);
+            border: none;
+            outline: none;
+            flex-grow: 1;
+            padding: 10px;
+            color: map-get($text-colors, 'primary-light');
+            border: lighten(map-get($layout-colors, 'primary'), 15) solid 3px;
+            transition: border 0.2s ease-out;
+            border-radius: 3px;
+
+            &::placeholder {
+                color: rgba(map-get($text-colors, 'primary-light'), 0.5);
+            }
+
+            &:focus {
+                border: lighten(map-get($layout-colors, 'primary'), 20) solid 3px;
+            }
+
+            &:-webkit-autofill,
+            &:-webkit-autofill:hover,
+            &:-webkit-autofill:focus,
+            &:-webkit-autofill:active {
+                -webkit-box-shadow: 0 0 0 30px lighten(map-get($layout-colors, 'primary'), 15) inset !important;
+                box-shadow: 0 0 0 30px lighten(map-get($layout-colors, 'primary'), 15) inset !important;
+            }
+
+            &:-webkit-autofill {
+                -webkit-text-fill-color: map-get($text-colors, 'primary-light') !important;
+            }
+        }
+    }
+}

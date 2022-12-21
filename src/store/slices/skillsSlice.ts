@@ -35,9 +35,9 @@ const skillsSlice = createSlice({
         },
 
         removeSkill: (state, action: PayloadAction<string>) => {
-            state.list = state.list.filter(skill => {
-                skill.id !== action.payload
-            })
+            state.list = state.list.filter(
+                skill => skill.id !== action.payload
+            )
         },
 
         setSkillsStatus: (state, action: PayloadAction<StatusEnum>) => {

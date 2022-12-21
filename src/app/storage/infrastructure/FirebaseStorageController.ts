@@ -1,22 +1,22 @@
-import { deleteObject, getDownloadURL, ref, uploadBytesResumable } from "firebase/storage"
+import { deleteObject, getDownloadURL, ref, uploadBytes } from "firebase/storage"
 import { storage } from "../../../firebase/firebase"
 import { StorageBase } from "../domain/StorageBase"
 
 export class FirebaseStorageController implements StorageBase {
-    async uploadOne(path: string, file: File): Promise<boolean> {
+    async uploadOne(path: string, file: File, filename?: string): Promise<boolean> {
         try {
-            const storageRef = ref(storage, `${path}/${file.name}`)
-            await uploadBytesResumable(storageRef, file)
+            const storageRef = ref(storage, `${path}/${filename ?? file.name}`)
+            await uploadBytes(storageRef, file)
             return true
         } catch (error) {
             return false
         }
     }
     
-    uploadMany(files: {path: string, filedata: File}[]): Promise<boolean[]> {
+    async uploadMany(files: {path: string, filedata: File, filename?: string}[]): Promise<boolean[]> {
         const promiseArray = []
         for(let i = 0; files.length > i; i++) {
-            promiseArray.push(this.uploadOne(files[i].path, files[i].filedata))
+            promiseArray.push(this.uploadOne(files[i].path, files[i].filedata, files[i].filename))
         }
         return Promise.all(promiseArray)
     }

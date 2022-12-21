@@ -9,7 +9,7 @@ export function useSkills() {
     const skillsState = useSelector<RootStateType, SkillStateType>(state => state.skills)
     const dispatch = useDispatch()
 
-    return {state: skillsState, actions:{
+    return {skillsState: skillsState, skillsActions:{
         async create(data: SkillType){
             dispatch(setSkillsStatus(StatusEnum.LOADING))
             const controller = ControllerFactory.skillControllers().skillController()
@@ -23,7 +23,7 @@ export function useSkills() {
             dispatch(setSkillsStatus(StatusEnum.LOADING))
             const controller = ControllerFactory.skillControllers().skillController()
             const isUpdated = await controller.updateOne(id,data)
-            if(isUpdated) {
+            if(!isUpdated) {
                 dispatch(setSkillsStatus(StatusEnum.ERROR))
                 dispatch(setSkillsMessage("Failed to update skill"))
             }
@@ -32,7 +32,7 @@ export function useSkills() {
             dispatch(setSkillsStatus(StatusEnum.LOADING))
             const controller = ControllerFactory.skillControllers().skillController()
             const isRemoved = await controller.removeOne(id)
-            if(isRemoved) {
+            if(!isRemoved) {
                 dispatch(setSkillsStatus(StatusEnum.ERROR))
                 dispatch(setSkillsMessage("Failed to remove skill"))
             }

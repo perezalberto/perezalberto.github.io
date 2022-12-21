@@ -35,16 +35,16 @@ const projectsSlice = createSlice({
         },
 
         removeProject: (state, action: PayloadAction<string>) => {
-            state.list = state.list.filter((
-                (project) => project.id !== action.payload
-            ))
+            state.list = state.list.filter(
+                project => project.id !== action.payload
+            )
         },
 
         setProjectsStatus: (state, action: PayloadAction<StatusEnum>) => {
             state.status = action.payload
         },
 
-        setProjectMessage: (state, action: PayloadAction<string>) => {
+        setProjectsMessage: (state, action: PayloadAction<string>) => {
             state.message = action.payload
         },
     },
@@ -56,7 +56,7 @@ export const {
     updateProject,
     removeProject,
     setProjectsStatus,
-    setProjectMessage,
+    setProjectsMessage,
 } = projectsSlice.actions
 
 export default projectsSlice.reducer

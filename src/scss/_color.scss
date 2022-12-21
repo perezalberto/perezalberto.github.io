@@ -1,14 +1,34 @@
 $colors: (
-    primary: #1A2F7E,
-    secondary: #2E4599,
-    accent: #E1592E, // #B3D82C
-    success: #34B826,
-    error: #E1462E,
+    'primary': #19244b,
+    'accent': #ff8965, 
+    'red': #e96969,
+    'green': #86df65,
+    'blue': #5b83e7,
+    'yellow': #e2de61,
+);
+
+$layout-colors: (
+    'primary': map-get($colors, 'primary'),
+    'accent': map-get($colors, 'accent'),
+    'success': map-get($colors, 'green'),
+    'error': map-get($colors, 'red'),
+);
+
+$button-colors: (
+    'primary': #d9e5ff,
+    'accent': map-get($colors, 'accent'),
+    'success': map-get($colors, 'green'),
+    'error': map-get($colors, 'red'),
+    'red': map-get($colors, 'red'),
+    'green': map-get($colors, 'green'),
+    'blue': map-get($colors, 'blue'),
+    'yellow': map-get($colors, 'yellow'),
 );
 
 $text-colors: (
-    primary-light: #212121,
-    secondary-light: #757575,
-    primary-dark: #e9f0ff,
-    secondary-dark: #a2beff,
+    'primary-dark': #212121,
+    'secondary-dark': #757575,
+    'primary-light': #e9f0ff,
+    'secondary-light': #a2beff,
 )
+

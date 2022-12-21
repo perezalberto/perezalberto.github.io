@@ -5,13 +5,14 @@ import { addDoc, collection, documentId, getDocs, query, where, limit, startAt, 
 import { firestore } from "../../../firebase/firebase"
 import { ProjectWithEventBase } from "../domain/ProjectWithEventBase"
 import { ControllerFactory } from "../../common/infrastructure/ControllerFactory"
+import { randomString } from "../../../utils/randomString"
 
 export class FirestoreProjectController implements ProjectWithEventBase {
 
-    private static storage: StorageController
+    private storage: StorageController
 
     constructor() {
-        FirestoreProjectController.storage = new StorageController(ControllerFactory.storageControllers().storageController())
+        this.storage = new StorageController(ControllerFactory.storageControllers().storageController())
     }
 
     /**
@@ -21,52 +22,57 @@ export class FirestoreProjectController implements ProjectWithEventBase {
      */
     async create(project: ProjectType): Promise<string | undefined> {
 
-        const isUploaded = await FirestoreProjectController.storage.uploadMany([
+        const randomPrefix = randomString(10)
+
+        const isUploaded = await this.storage.uploadMany([
             {
-                path:"projects/preview",
-                filedata:project.imagePreview
+                path: "projects/preview",
+                filedata: project.imagePreview,
+                filename: `${randomPrefix}${project.imagePreview.name}`
             },
             {
-                path:"projects",
-                filedata:project.imageFullSize
+                path: "projects",
+                filedata: project.image,
+                filename: `${randomPrefix}${project.image.name}`,
             }
         ])
 
         if (!isUploaded.every(e => e === true)) {
             const toRemove = [
-                `projects/preview/${project.imagePreview.name}`,
-                `projects/${project.imageFullSize.name}`
+                `projects/preview/${randomPrefix}${project.imagePreview.name}`,
+                `projects/${randomPrefix}${project.image.name}`
             ].filter((_, index) => isUploaded[index])
-            await FirestoreProjectController.storage.deleteMany(toRemove)
+            await this.storage.deleteMany(toRemove)
             return undefined
         }
 
-        const urls = await FirestoreProjectController.storage.getManyUrl([
-            `projects/preview/${project.imagePreview.name}`,
-            `projects/${project.imageFullSize.name}`,
+        const urls = await this.storage.getManyUrl([
+            `projects/preview/${randomPrefix}${project.imagePreview.name}`,
+            `projects/${randomPrefix}${project.image.name}`,
         ])
 
         const projectItemRemoteData: ProjectRemoteType = {
             imagePreviewUrl: urls[0],
             imageFullSizeUrl: urls[1],
-            imagePreviewName: project.imagePreview.name,
-            imageFullSizeName: project.imageFullSize.name,
-            langs: project.langs,
-            text: project.text,
+            imagePreviewName: `${randomPrefix}${project.imagePreview.name}`,
+            imageFullSizeName: `${randomPrefix}${project.image.name}`,
+            langs: project.langs || "",
+            text: project.text || "",
             website: project.website || "",
-            repository: project.repository,
-            projectType: project.projectType,
+            repository: project.repository || "",
+            projectType: project.projectType || "",
         }
 
         try {
             const docRef = await addDoc(collection(firestore, "projects"), projectItemRemoteData)
             return docRef.id
         } catch (error) {
+            console.log(error)
             const toRemove = [
-                `projects/preview/${project.imagePreview.name}`,
-                `projects/${project.imageFullSize.name}`
+                `projects/preview/${randomPrefix}${project.imagePreview.name}`,
+                `projects/${randomPrefix}${project.image.name}`
             ]
-            await FirestoreProjectController.storage.deleteMany(toRemove)
+            await this.storage.deleteMany(toRemove)
             return undefined
         }
     }
@@ -143,14 +149,14 @@ export class FirestoreProjectController implements ProjectWithEventBase {
             if (newImage === undefined) return
             
             if (currentImageName !== undefined){
-                updatePromiseList.push(FirestoreProjectController.storage.deleteOne(`${path}/${currentImageName}`))
+                updatePromiseList.push(this.storage.deleteOne(`${path}/${currentImageName}`))
             }
 
-            updatePromiseList.push(FirestoreProjectController.storage.uploadOne(path, newImage))
+            updatePromiseList.push(this.storage.uploadOne(path, newImage))
             const result = await Promise.all(updatePromiseList)
             
             if(result[result.length - 1] === true) {
-                return FirestoreProjectController.storage.getUrl(`${path}/${newImage.name}`)
+                return this.storage.getUrl(`${path}/${newImage.name}`)
             }
             return undefined
         }
@@ -159,7 +165,7 @@ export class FirestoreProjectController implements ProjectWithEventBase {
         
         const updatePromiseArray = []
         updatePromiseArray.push(updateImageFunc("projects/preview", currentData?.imagePreviewName, data.imagePreview))
-        updatePromiseArray.push(updateImageFunc("projects", currentData?.imageFullSizeName, data.imageFullSize))
+        updatePromiseArray.push(updateImageFunc("projects", currentData?.imageFullSizeName, data.image))
         const urls = await Promise.all(updatePromiseArray)
 
         const imageData: Partial<ProjectRemoteType> = {
@@ -194,7 +200,7 @@ export class FirestoreProjectController implements ProjectWithEventBase {
                 `projects/${projectDoc.imageFullSizeName}`
             ]
             await Promise.all([
-                FirestoreProjectController.storage.deleteMany(toRemove),
+                this.storage.deleteMany(toRemove),
                 deleteDoc(doc(firestore, "projects", id)),
             ])
             return true

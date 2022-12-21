@@ -1,0 +1,66 @@
+.article-skills {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 7rem), 1fr));
+    gap: 30px;
+
+    .skills-item-dashed {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+        min-height: 75px;
+        border-radius: 4px;
+        border: 2px lighten(map-get($layout-colors, 'primary'),7) dashed;
+
+        >.icon {
+            width: 1em;
+            font-size: 2rem;
+            top: 0 !important;
+            padding: 1rem;
+            border-radius: 50%;
+            color: lighten(map-get($layout-colors, 'primary'),10);
+            transition: 0.2s all ease-out;
+        }
+
+        &:hover >.icon {
+            color: darken(map-get($layout-colors, 'primary'), 5);
+            background-color: lighten(map-get($layout-colors, 'primary'),10);
+        }
+    }
+
+    .skills-item {
+        display: flex;
+        gap: 0.5rem;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+        min-height: 75px;
+        border-radius: 4px;
+        transition: all 0.2s ease-out;
+        background-color: rgba(map-get($layout-colors, 'primary'), 0.75);
+        border-bottom: 1px solid transparent;
+        border-left: 1px solid transparent;
+        border-right: 1px solid transparent;
+        flex-grow: 1;
+
+        &:hover {
+            background-color: map-get($layout-colors, 'primary');
+            border-bottom: 1px solid lighten(map-get($layout-colors, 'primary'), 7);
+            border-left: 1px solid lighten(map-get($layout-colors, 'primary'), 1);
+            border-right: 1px solid lighten(map-get($layout-colors, 'primary'), 1);
+            box-shadow: 0 0 10px 0 rgba(#000000, 0.1), 0 -10px 30px 0 inset rgba(white, 0.015);
+        }
+
+        .skills-item-icon{
+            font-size: 3rem;
+            line-height: 0;
+            svg {
+                display: inline;
+                fill: currentColor;
+                height: 1em;
+                position: relative;
+            }
+        }
+    }
+}

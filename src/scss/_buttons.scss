@@ -1,0 +1,36 @@
+.btn {
+    padding: 0.5em 0.75em;
+    background-color: rgba(#000000, 0.5);
+    border-radius: 4px;
+    border: none;
+    color: map-get($text-colors ,"primary-light");
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: all 0.1s ease-out;
+    font-size: 1rem;
+    cursor: pointer;
+
+    @each $name, $color in $button-colors {
+        &.btn-#{"" + $name} {
+            border: 1px solid $color;
+            background-color: $color;
+            color: map-get($text-colors , "primary-dark");
+        }
+    
+        &.btn-#{"" + $name}:hover {
+            border: 1px solid lighten($color, 5);
+            background-color: lighten($color, 5);
+        }
+
+        &.btn-outline-#{"" + $name} {
+            border: 1px $color;
+            color: $color;
+            background-color: transparent;
+        }
+    
+        &.btn-outline-#{"" + $name}:hover {
+            border: 1px solid lighten($color, 5);
+            background-color: rgba($color, 0.05);
+        }
+    }
+}

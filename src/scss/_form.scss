@@ -1,0 +1,139 @@
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75em;
+}
+
+.modal-container .form-container {
+    padding: 0.75rem;
+}
+
+.form-container {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 0.75em;
+
+    &.form-container-row {
+        flex-direction: row;
+    }
+
+    &.form-container-column {
+        flex-direction: column;
+    }
+
+    * {
+        flex-grow: 1;
+    }
+
+    input, textarea {
+        &:-webkit-autofill,
+        &:-webkit-autofill:hover,
+        &:-webkit-autofill:focus,
+        &:-webkit-autofill:active {
+            -webkit-box-shadow: 0 0 0 30px lighten(map-get($layout-colors, 'primary'), 5) inset !important;
+            box-shadow: 0 0 0 30px lighten(map-get($layout-colors, 'primary'), 5) inset !important;
+        }
+
+        &:-webkit-autofill {
+            -webkit-text-fill-color: map-get($text-colors, 'primary-light') !important;
+        }
+    }
+
+    input,
+    textarea,
+    .file-input {
+        background-color: lighten(map-get($layout-colors, "primary"), 5);
+        border: 2px solid lighten(map-get($layout-colors, "primary"), 5);
+        padding: 0.5em;
+        border-radius: 5px;
+        outline: none;
+        color: white;
+        font-size: 1rem;
+
+        &:focus {
+            border: 2px solid lighten(map-get($layout-colors, "primary"), 15);
+        }
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+        /* Chrome, Firefox, Opera, Safari 10.1+ */
+        color: lighten(map-get($layout-colors, "primary"), 20);
+        opacity: 1;
+        /* Firefox */
+    }
+
+    input:-ms-input-placeholder,
+    textarea:-ms-input-placeholder {
+        /* Internet Explorer 10-11 */
+        color: lighten(map-get($layout-colors, "primary"), 20);
+    }
+
+    input::-ms-input-placeholder,
+    textarea::-ms-input-placeholder {
+        /* Microsoft Edge */
+        color: lighten(map-get($layout-colors, "primary"), 20);
+    }
+
+    textarea {
+        height: 7em;
+        resize: none;
+    }
+
+    .image-input-preview {
+        width: 100%;
+        border-radius: 4px;
+    }
+
+    .image-input {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .image-container {
+        min-height: 150px;
+
+        img {
+            width: 100%;
+            min-height: 150px;
+        }
+    }
+
+    .file-input {
+        padding: 0.25em;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+
+        input[type="file"] {
+            display: none;
+        }
+
+        .file-input-button {
+            text-transform: capitalize;
+            flex-grow: 0;
+            padding: 0.25rem 0.5rem;
+            background-color: lighten(map-get($layout-colors, "primary"), 15);
+            color: rgba(map-get($text-colors, "primary-light"), 0.5);
+            border-radius: 5px;
+            text-align: center;
+            white-space: nowrap;
+            transition: all ease-out 0.2s;
+        }
+
+        .file-input-value {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            display: inline-block;
+            flex-basis: min-content;
+            max-width: 200px;
+        }
+    }
+
+    .file-input:hover .file-input-button {
+        background-color: lighten(map-get($layout-colors, "primary"), 20);
+    }
+}

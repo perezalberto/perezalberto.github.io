@@ -7,11 +7,11 @@ export class StorageController implements StorageBase {
         this.controller = controller
     }
      
-    async uploadOne(path: string, file: File): Promise<boolean> {
-        return this.controller.uploadOne(path, file)
+    async uploadOne(path: string, file: File, filename?: string): Promise<boolean> {
+        return this.controller.uploadOne(path, file, filename)
     }
     
-    uploadMany(files: {path: string, filedata: File}[]): Promise<boolean[]> {
+    async uploadMany(files: {path: string, filedata: File, filename?: string}[]): Promise<boolean[]> {
         return this.controller.uploadMany(files)
     }
     
