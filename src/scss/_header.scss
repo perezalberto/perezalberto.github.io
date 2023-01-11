@@ -32,7 +32,7 @@ header.document-header {
     .triangles > div > div > div {
         border-style: solid;
         border-width: 0 100px 173.2px 100px;
-        border-color: transparent transparent lighten(map-get($layout-colors, 'primary'), 3) transparent;
+        border-color: transparent transparent lighten(map-get($layout-colors, 'primary'), 4) transparent;
         translate: -50px -86.6px;
     }
 
