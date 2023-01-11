@@ -35,7 +35,7 @@
             right: 0;
             bottom: 0;
             left: 0;
-            background-color: rgba(map-get($layout-colors, 'accent'), 0.15);
+            background-color: rgba(map-get($layout-colors, 'accent'), 0.1);
             transition: all 0.2s ease-out;
             position: absolute;
             z-index: 10;
@@ -43,12 +43,12 @@
 
         &:hover::before {
             transform: translate(-14px, -14px);
-            background-color: rgba(map-get($layout-colors, 'accent'), 0.1);
+            background-color: rgba(map-get($layout-colors, 'accent'), 0.05);
         }
 
         &:hover::after {
             transform: translate(14px, 14px);
-            background-color: rgba(map-get($layout-colors, 'accent'), 0.1);
+            background-color: rgba(map-get($layout-colors, 'accent'), 0.05);
         }
     }
 }
