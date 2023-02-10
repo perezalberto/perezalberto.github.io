@@ -1,7 +1,7 @@
 import React from "react"
 
 import {
-    BrowserRouter as Router,
+    HashRouter,
     Routes,
     Route,
 } from "react-router-dom"
@@ -22,7 +22,7 @@ function App() {
     const {authState, authActions} = useAuth()
     return (
         <div className="App">
-            <Router>
+            <HashRouter>
                 <Navbar>
                     <ul className="nav-list">
                         <li><Link to="/#">Home</Link></li>
@@ -45,7 +45,7 @@ function App() {
                     <Route path="/" element={<Home />}></Route>
                     <Route path="/login" element={<Login />}></Route>
                 </Routes>
-            </Router>
+            </HashRouter>
         </div>
     )
 }
