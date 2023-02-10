@@ -9,7 +9,7 @@ function Header() {
                     Alberto Pérez
                     <span className="color-accent">/&gt;</span>
                 </h1>
-                <p>Programador web FullStack React, Typescript / NodeJs, expressJs</p>
+                <p>Programador web FullStack React, Typescript / NodeJs, express.js</p>
             </div>
             <div className="triangles">
                 <div><div><div></div></div></div>
